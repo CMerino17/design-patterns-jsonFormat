@@ -18,9 +18,10 @@ public class ConsoleEditor implements Editor {
 
     private final CommandFactory commandFactory = new CommandFactory();
     private ArrayList<String> documentLines = new ArrayList<String>();
+    private JsonFormat jsonFormat = new JsonFormat();
 
     @Override
-    public void run() {
+    public void run(String arg) {
         boolean exit = false;
         while (!exit) {
             String commandLine = waitForNewCommand();
@@ -32,7 +33,11 @@ public class ConsoleEditor implements Editor {
             } catch (ExitException e) {
                 exit = true;
             }
-            showDocumentLines(documentLines);
+            if (arg.equals("text")) {
+                showDocumentLines(documentLines);
+            } else if (arg.equals("json")){
+                jsonFormat.showJsonLines(documentLines);
+            }
             showHelp();
         }
     }
@@ -72,11 +77,11 @@ public class ConsoleEditor implements Editor {
         setTextColor(TEXT_RESET);
     }
 
-    private void setTextColor(String color) {
+    void setTextColor(String color) {
         System.out.println(color);
     }
 
-    private void printLnToConsole(String message) {
+    void printLnToConsole(String message) {
         System.out.println(message);
     }
 
